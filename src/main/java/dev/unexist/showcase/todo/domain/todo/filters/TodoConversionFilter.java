@@ -1,6 +1,7 @@
 /**
  * @package Quarkus-Pipes-Filters-Showcase
- * @file Todo persistence filter
+ *
+ * @file Todo conversion filter
  * @copyright 2020 Christoph Kappel <christoph@unexist.dev>
  * @version $Id: src/main/java/dev/unexist/showcase/todo/domain/todo/TodoRepository.java,v 7
  *

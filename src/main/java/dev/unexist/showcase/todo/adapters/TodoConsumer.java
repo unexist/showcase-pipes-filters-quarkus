@@ -1,7 +1,7 @@
 /**
  * @package Quarkus-Pipes-Filters-Showcase
  *
- * @file Todo smallrye consumer
+ * @file Todo consumer
  * @copyright 2020 Christoph Kappel <christoph@unexist.dev>
  * @version $Id$
  *
