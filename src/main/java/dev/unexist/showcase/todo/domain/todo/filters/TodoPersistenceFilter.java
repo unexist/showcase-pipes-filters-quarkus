@@ -12,12 +12,12 @@
 package dev.unexist.showcase.todo.domain.todo.filters;
 
 import dev.unexist.showcase.todo.domain.todo.Todo;
-import dev.unexist.showcase.todo.domain.todo.TodoDto;
 import dev.unexist.showcase.todo.domain.todo.TodoRepository;
 import dev.unexist.showcase.todo.domain.todo.events.TodoConverted;
 import dev.unexist.showcase.todo.domain.todo.events.TodoSaved;
 import dev.unexist.showcase.todo.infrastructure.base.AbstractBaseFilter;
 
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import java.util.Optional;
 
@@ -28,12 +28,15 @@ public class TodoPersistenceFilter
     TodoRepository repository;
 
     @Override
-    public void process(TodoConverted event) {
+    public void process(@Observes TodoConverted event) {
+        LOGGER.info("Received event={}", event.getClass().getSimpleName());
 
-        Optional<TodoDto> payload = event.getPayload();
+        Optional<Todo> payload = event.getPayload();
 
         if (payload.isPresent()) {
-            Todo todo = (Todo) payload.get();
+            Todo todo = payload.get();
+
+            LOGGER.info("Received event payload={}", todo);
 
             this.repository.add(todo);
 

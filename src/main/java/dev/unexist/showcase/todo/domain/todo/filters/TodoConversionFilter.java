@@ -10,42 +10,31 @@
 
 package dev.unexist.showcase.todo.domain.todo.filters;
 
-import dev.unexist.showcase.todo.domain.todo.DueDate;
 import dev.unexist.showcase.todo.domain.todo.Todo;
 import dev.unexist.showcase.todo.domain.todo.TodoDto;
+import dev.unexist.showcase.todo.domain.todo.TodoDtoAssembler;
 import dev.unexist.showcase.todo.domain.todo.events.TodoConverted;
 import dev.unexist.showcase.todo.domain.todo.events.TodoCreated;
 import dev.unexist.showcase.todo.infrastructure.base.AbstractBaseFilter;
 
+import javax.enterprise.event.Observes;
 import java.util.Optional;
 
 public class TodoConversionFilter
         extends AbstractBaseFilter<TodoCreated, TodoConverted, Todo>
 {
-
     @Override
-    public void process(TodoCreated event) {
-        Todo todo = new Todo();
+    public void process(@Observes TodoCreated event) {
+        LOGGER.info("Received event={}", event.getClass().getSimpleName());
 
         Optional<TodoDto> payload = event.getPayload();
 
         if (payload.isPresent()) {
-            TodoDto dto = (TodoDto) payload.get();
-
-            todo.setTitle(dto.getTitle());
-            todo.setDescription(dto.getDescription());
-            todo.setDone(dto.getDone());
-
-            DueDate dueDate = new DueDate();
-
-            dueDate.setStart(dto.getStart());
-            dueDate.setDue(dto.getDue());
-
-            todo.setDueDate(dueDate);
+            TodoDto dto = payload.get();
 
             LOGGER.info("Received event payload={}", dto);
-        }
 
-        this.send(todo, TodoConverted.class);
+            this.send(TodoDtoAssembler.fromDtoToTodo(dto), TodoConverted.class);
+        }
     }
 }

@@ -11,17 +11,17 @@
 
 package dev.unexist.showcase.todo.infrastructure.base;
 
+import io.cloudevents.CloudEvent;
 import io.cloudevents.v1.CloudEventBuilder;
-import io.cloudevents.v1.CloudEventImpl;
 
 import java.net.URI;
 import java.util.Optional;
 import java.util.UUID;
 
 public abstract class AbstractBaseEvent<DATA> {
-    private CloudEventImpl<DATA> cloudEvent;
+    private CloudEvent cloudEvent;
 
-    public AbstractBaseEvent(final CloudEventImpl<DATA> cloudEvent) {
+    public AbstractBaseEvent(final CloudEvent cloudEvent) {
         this.cloudEvent = cloudEvent;
     }
 

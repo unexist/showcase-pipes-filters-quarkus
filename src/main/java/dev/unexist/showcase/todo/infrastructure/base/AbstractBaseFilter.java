@@ -18,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.event.Event;
-import javax.enterprise.event.ObservesAsync;
 import javax.inject.Inject;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -31,7 +30,7 @@ public abstract class AbstractBaseFilter<IN extends AbstractBaseEvent, OUT exten
     @Inject
     Event<OUT> event;
 
-    protected abstract void process(@ObservesAsync IN event);
+    protected abstract void process(IN event);
 
     protected void send(DATA data, Class<OUT> outClazz) {
         CloudEventBuilder<DATA> builder = CloudEventBuilder.builder();

@@ -14,10 +14,9 @@ package dev.unexist.showcase.todo.domain.todo.events;
 import dev.unexist.showcase.todo.domain.todo.Todo;
 import dev.unexist.showcase.todo.infrastructure.base.AbstractBaseEvent;
 import io.cloudevents.CloudEvent;
-import io.cloudevents.v1.CloudEventImpl;
 
 public class TodoConverted extends AbstractBaseEvent<Todo> {
-    public TodoConverted(CloudEventImpl<Todo> cloudEvent) {
+    public TodoConverted(CloudEvent cloudEvent) {
         super(cloudEvent);
     }
 

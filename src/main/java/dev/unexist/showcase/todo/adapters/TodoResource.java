@@ -13,10 +13,13 @@ package dev.unexist.showcase.todo.adapters;
 
 import dev.unexist.showcase.todo.domain.todo.TodoDto;
 import dev.unexist.showcase.todo.domain.todo.events.TodoCreated;
+import dev.unexist.showcase.todo.infrastructure.base.AbstractBaseFilter;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
@@ -30,6 +33,7 @@ import javax.ws.rs.core.Response;
 
 @Path("/todo")
 public class TodoResource {
+    protected static final Logger LOGGER = LoggerFactory.getLogger(TodoResource.class);
 
     @Inject
     Event<TodoCreated> event;
@@ -46,6 +50,8 @@ public class TodoResource {
     })
     public Response create(@Valid TodoDto dto) {
         this.event.fire(new TodoCreated(dto));
+
+        LOGGER.info("Sent event={}", TodoCreated.class.getSimpleName());
 
         return Response.ok().build();
     }

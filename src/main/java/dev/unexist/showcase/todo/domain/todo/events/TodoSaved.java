@@ -13,10 +13,10 @@ package dev.unexist.showcase.todo.domain.todo.events;
 
 import dev.unexist.showcase.todo.domain.todo.Todo;
 import dev.unexist.showcase.todo.infrastructure.base.AbstractBaseEvent;
-import io.cloudevents.v1.CloudEventImpl;
+import io.cloudevents.CloudEvent;
 
 public class TodoSaved extends AbstractBaseEvent<Todo> {
-    public TodoSaved(CloudEventImpl<Todo> cloudEvent) {
+    public TodoSaved(CloudEvent cloudEvent) {
         super(cloudEvent);
     }
 

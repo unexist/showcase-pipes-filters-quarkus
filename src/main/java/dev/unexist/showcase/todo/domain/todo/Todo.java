@@ -13,7 +13,7 @@ package dev.unexist.showcase.todo.domain.todo;
 
 import javax.validation.constraints.NotBlank;
 
-public class Todo extends TodoDto {
+public class Todo {
     private int id;
     @NotBlank
     private String title;
@@ -36,32 +36,26 @@ public class Todo extends TodoDto {
         this.id = id;
     }
 
-    @Override
     public String getTitle() {
         return title;
     }
 
-    @Override
     public void setTitle(String title) {
         this.title = title;
     }
 
-    @Override
     public String getDescription() {
         return description;
     }
 
-    @Override
     public void setDescription(String description) {
         this.description = description;
     }
 
-    @Override
     public Boolean getDone() {
         return done;
     }
 
-    @Override
     public void setDone(Boolean done) {
         this.done = done;
     }
