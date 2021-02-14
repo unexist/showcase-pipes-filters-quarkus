@@ -18,34 +18,30 @@ import org.junit.jupiter.api.Test;
 
 import static com.tngtech.archunit.library.Architectures.layeredArchitecture;
 
-@AnalyzeClasses(packages = "dev.unexist.showcase")
+@AnalyzeClasses(packages = "dev.unexist.showcase.todo")
 public class LayerArchUnitTest {
-    private final JavaClasses classes = new ClassFileImporter().importPackages("dev.unexist");
+    private final JavaClasses classes = new ClassFileImporter().importPackages("dev.unexist.showcase.todo");
 
     @Test
     public void testLayeredArch() {
         layeredArchitecture()
-                .layer("Application")
+            .layer("Adapters")
+                .definedBy("..adapters..")
+            .layer("Application")
                 .definedBy("..application..")
-            .layer("Model")
-                .definedBy("..model..")
-            .layer("Service")
-                .definedBy("..service..")
-            .layer("Repository")
-                .definedBy("..repository..")
+            .layer("Domain")
+                .definedBy("..domain..")
             .layer("Infrastructure")
                 .definedBy("..infrastructure..")
 
-            .whereLayer("Application")
+            .whereLayer("Adapters")
                 .mayNotBeAccessedByAnyLayer()
-            .whereLayer("Service")
-                .mayOnlyBeAccessedByLayers("Application")
-            .whereLayer("Model")
-                .mayOnlyBeAccessedByLayers("Application", "Service", "Repository")
-            .whereLayer("Repository")
-                .mayOnlyBeAccessedByLayers("Service")
+            .whereLayer("Application")
+                .mayOnlyBeAccessedByLayers("Adapters")
+            .whereLayer("Domain")
+                .mayOnlyBeAccessedByLayers("Adapters", "Application")
             .whereLayer("Infrastructure")
-                .mayOnlyBeAccessedByLayers("Application", "Service", "Repository")
+                .mayOnlyBeAccessedByLayers("Adapters", "Application", "Infrastructure")
             .check(classes);
     }
 }
