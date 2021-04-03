@@ -5,7 +5,7 @@
  * @copyright 2020 Christoph Kappel <christoph@unexist.dev>
  * @version $Id: src/main/java/dev/unexist/showcase/todo/domain/todo/TodoRepository.java,v 7
  *
- * This program can be distributed under the terms of the GNU GPLv2.
+ * This program can be distributed under the terms of the GNU GPLv3.
  * See the file LICENSE for details.
  **/
 
@@ -22,8 +22,7 @@ import javax.enterprise.event.Observes;
 import java.util.Optional;
 
 public class TodoConversionFilter
-        extends AbstractBaseFilter<TodoCreated, TodoConverted, Todo>
-{
+        extends AbstractBaseFilter<TodoCreated, TodoConverted, Todo> {
     @Override
     public void process(@Observes TodoCreated event) {
         LOGGER.info("Received event={}", event.getClass().getSimpleName());

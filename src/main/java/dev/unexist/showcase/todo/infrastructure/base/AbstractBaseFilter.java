@@ -5,7 +5,7 @@
  * @copyright 2020 Christoph Kappel <christoph@unexist.dev>
  * @version $Id$
  *
- * This program can be distributed under the terms of the GNU GPLv2.
+ * This program can be distributed under the terms of the GNU GPLv3.
  * See the file LICENSE for details.
  **/
 
@@ -50,7 +50,7 @@ public abstract class AbstractBaseFilter<IN extends AbstractBaseEvent, OUT exten
 
             LOGGER.info("Fired event {}", outClazz.getSimpleName());
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-            e.printStackTrace();
+            LOGGER.error("Couldn't fire event", e);
         }
     }
 }

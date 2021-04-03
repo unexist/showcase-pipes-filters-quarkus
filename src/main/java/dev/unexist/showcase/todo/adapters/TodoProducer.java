@@ -5,7 +5,7 @@
  * @copyright 2020 Christoph Kappel <christoph@unexist.dev>
  * @version $Id$
  *
- * This program can be distributed under the terms of the GNU GPLv2.
+ * This program can be distributed under the terms of the GNU GPLv3.
  * See the file LICENSE for details.
  **/
 
@@ -28,9 +28,11 @@ import java.util.Optional;
 public class TodoProducer {
     private static final Logger LOGGER = LoggerFactory.getLogger(TodoConsumer.class);
 
-    private TodoDto dto;
+    @Outgoing("todo-out")
+    @Broadcast
+    public TodoDto process(@Observes TodoSaved event) {
+        TodoDto dto = null;
 
-    public void process(@Observes TodoSaved event) {
         LOGGER.info("Received event={}", event.getClass().getSimpleName());
 
         Optional<Todo> payload = event.getPayload();
@@ -40,15 +42,9 @@ public class TodoProducer {
 
             LOGGER.info("Received event payload={}", todo);
 
-            this.dto = TodoDtoAssembler.fromTodoToDto(todo);
-
-            this.send();
+            dto = TodoDtoAssembler.fromTodoToDto(todo);
         }
-    }
 
-    @Outgoing("todo-out")
-    @Broadcast
-    public TodoDto send() {
-        return this.dto;
+        return dto;
     }
 }
