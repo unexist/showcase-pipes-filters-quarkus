@@ -1,6 +1,6 @@
 Quarkus pipes and filter showcase
 ----
-This project holds a showcase for a CDI-bsed pipes and filter architecture.
+This project holds a showcase for a CDI-based pipes and filter architecture.
 
 Frameworks
 ----
