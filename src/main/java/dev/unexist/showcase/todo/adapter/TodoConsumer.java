@@ -9,7 +9,7 @@
  * See the file LICENSE for details.
  **/
 
-package dev.unexist.showcase.todo.adapters;
+package dev.unexist.showcase.todo.adapter;
 
 import dev.unexist.showcase.todo.domain.todo.TodoDto;
 import dev.unexist.showcase.todo.domain.todo.events.TodoCreated;
