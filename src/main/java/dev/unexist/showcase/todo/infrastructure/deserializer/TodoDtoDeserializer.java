@@ -1,5 +1,5 @@
 /**
- * @package Quarkus-Testing-Showcase
+ * @package Quarkus-Pipes-Filter-Showcase
  *
  * @file Todo Dto deserializer
  * @copyright 2021 Christoph Kappel <christoph@unexist.dev>
