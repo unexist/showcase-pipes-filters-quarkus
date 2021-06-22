@@ -1,13 +1,13 @@
-Quarkus pipes and filter showcase
-----
+= Showcase for pipes and filter based on quarkus
+
 This project holds a showcase for a CDI-based pipes and filter architecture.
 
-Frameworks
-----
-- [CloudEvents](https://cloudevents.io/)
+== Frameworks
 
-Technology
-----
-- [Kafka CDI](https://developers.redhat.com/blog/2018/05/31/introducing-the-kafka-cdi-library/)
-- [CloudEvents Example](https://github.com/cloudevents/sdk-java/tree/master/examples/kafka/src/main/java/io/cloudevents/examples/kafka)
-- [SmallRye CloudEvents](https://quarkus.io/blog/kafka-cloud-events/)
+- https://cloudevents.io/[CloudEvents]
+
+== Links
+
+- https://developers.redhat.com/blog/2018/05/31/introducing-the-kafka-cdi-library
+- https://github.com/cloudevents/sdk-java/tree/master/examples/kafka/src/main/java/io/cloudevents/examples/kafka
+- https://quarkus.io/blog/kafka-cloud-events/
