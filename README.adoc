@@ -1,4 +1,4 @@
-= Showcase for pipes and filter based on quarkus
+= Showcase for pipes and filters based on quarkus
 
 This project holds a showcase for a CDI-based pipes and filter architecture.
 
