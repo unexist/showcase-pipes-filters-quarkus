@@ -11,11 +11,11 @@
 
 package dev.unexist.showcase.todo.infrastructure.deserializer;
 
-import dev.unexist.showcase.todo.domain.todo.TodoDto;
+import dev.unexist.showcase.todo.domain.todo.TodoBase;
 import io.quarkus.kafka.client.serialization.ObjectMapperDeserializer;
 
-public class TodoDtoDeserializer extends ObjectMapperDeserializer<TodoDto> {
-    public TodoDtoDeserializer() {
-        super(TodoDto.class);
+public class TodoBaseDeserializer extends ObjectMapperDeserializer<TodoBase> {
+    public TodoBaseDeserializer() {
+        super(TodoBase.class);
     }
 }
