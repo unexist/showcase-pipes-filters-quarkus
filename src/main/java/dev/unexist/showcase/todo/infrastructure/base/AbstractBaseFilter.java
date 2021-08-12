@@ -24,7 +24,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.UUID;
 
-public abstract class AbstractBaseFilter<IN extends AbstractBaseEvent, OUT extends AbstractBaseEvent, DATA> extends AbstractBaseMapper {
+public abstract class
+    AbstractBaseFilter<IN extends AbstractBaseEvent, OUT extends AbstractBaseEvent, DATA>
+        extends AbstractBaseMapper
+{
     protected static final Logger LOGGER = LoggerFactory.getLogger(AbstractBaseFilter.class);
 
     @Inject
