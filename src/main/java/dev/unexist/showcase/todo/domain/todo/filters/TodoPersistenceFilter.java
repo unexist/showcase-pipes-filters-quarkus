@@ -24,20 +24,20 @@ import java.util.Optional;
 public class TodoPersistenceFilter
         extends AbstractBaseFilter<TodoConverted, TodoSaved, Todo> {
     @Inject
-    TodoRepository repository;
+    TodoRepository todoRepository;
 
     @Override
     public void process(@Observes TodoConverted event) {
         LOGGER.info("Received event={}", event.getClass().getSimpleName());
 
-        Optional<Todo> payload = event.getPayload();
+        Optional<Todo> payload = event.getPayload(Todo.class);
 
         if (payload.isPresent()) {
             Todo todo = payload.get();
 
             LOGGER.info("Received event payload={}", todo);
 
-            this.repository.add(todo);
+            this.todoRepository.add(todo);
 
             this.send(todo, TodoSaved.class);
         }

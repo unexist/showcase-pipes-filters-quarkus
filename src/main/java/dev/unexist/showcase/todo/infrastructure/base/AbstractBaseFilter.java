@@ -12,8 +12,8 @@
 package dev.unexist.showcase.todo.infrastructure.base;
 
 import io.cloudevents.CloudEvent;
-import io.cloudevents.v1.CloudEventBuilder;
-import io.cloudevents.v1.CloudEventImpl;
+import io.cloudevents.core.builder.CloudEventBuilder;
+import io.cloudevents.core.data.PojoCloudEventData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,29 +24,44 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.UUID;
 
-public abstract class AbstractBaseFilter<IN extends AbstractBaseEvent, OUT extends AbstractBaseEvent, DATA> {
+public abstract class AbstractBaseFilter<IN extends AbstractBaseEvent, OUT extends AbstractBaseEvent, DATA> extends AbstractBaseMapper {
     protected static final Logger LOGGER = LoggerFactory.getLogger(AbstractBaseFilter.class);
 
     @Inject
     Event<OUT> event;
 
+    /**
+     * Process event
+     *
+     * @param  event  A {@link Event} to process
+     **/
+
     protected abstract void process(IN event);
 
+    /**
+     * Send event
+     *
+     * @param  data      Event data
+     * @param  outClazz  Class type to send
+     **/
+
     protected void send(DATA data, Class<OUT> outClazz) {
-        CloudEventBuilder<DATA> builder = CloudEventBuilder.builder();
+        CloudEventBuilder template = CloudEventBuilder.v1()
+            .withSource(URI.create("https://unexist.dev"))
+            .withType(data.getClass().getSimpleName());
 
-        builder.withSource(URI.create("https://unexist.dev"));
-        builder.withType(data.getClass().getSimpleName());
+        PojoCloudEventData<DATA> cloudEventData = PojoCloudEventData.wrap(data,
+                this.mapper::writeValueAsBytes);
 
-        CloudEventImpl<DATA> ceEvent = builder
+        CloudEvent cloudEvent = template.newBuilder()
                 .withId(UUID.randomUUID().toString())
-                .withData(data)
+                .withData(cloudEventData)
                 .build();
 
         try {
             Constructor<OUT> constructor = outClazz.getConstructor(CloudEvent.class);
 
-            this.event.fire(constructor.newInstance(ceEvent));
+            this.event.fire(constructor.newInstance(cloudEvent));
 
             LOGGER.info("Fired event {}", outClazz.getSimpleName());
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {

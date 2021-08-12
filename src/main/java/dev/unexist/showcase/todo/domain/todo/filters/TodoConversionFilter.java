@@ -12,8 +12,7 @@
 package dev.unexist.showcase.todo.domain.todo.filters;
 
 import dev.unexist.showcase.todo.domain.todo.Todo;
-import dev.unexist.showcase.todo.domain.todo.TodoDto;
-import dev.unexist.showcase.todo.domain.todo.TodoDtoAssembler;
+import dev.unexist.showcase.todo.domain.todo.TodoBase;
 import dev.unexist.showcase.todo.domain.todo.events.TodoConverted;
 import dev.unexist.showcase.todo.domain.todo.events.TodoCreated;
 import dev.unexist.showcase.todo.infrastructure.base.AbstractBaseFilter;
@@ -27,14 +26,18 @@ public class TodoConversionFilter
     public void process(@Observes TodoCreated event) {
         LOGGER.info("Received event={}", event.getClass().getSimpleName());
 
-        Optional<TodoDto> payload = event.getPayload();
+        Optional<TodoBase> payload = event.getPayload(TodoBase.class);
 
         if (payload.isPresent()) {
-            TodoDto dto = payload.get();
+            TodoBase base = payload.get();
 
-            LOGGER.info("Received event payload={}", dto);
+            LOGGER.info("Received event payload={}", base);
 
-            this.send(TodoDtoAssembler.fromDtoToTodo(dto), TodoConverted.class);
+            Todo todo = new Todo();
+
+            todo.update(base);
+
+            this.send(todo, TodoConverted.class);
         }
     }
 }

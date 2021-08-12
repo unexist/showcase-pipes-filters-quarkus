@@ -11,16 +11,29 @@
 
 package dev.unexist.showcase.todo.domain.todo.events;
 
-import dev.unexist.showcase.todo.domain.todo.TodoDto;
+import dev.unexist.showcase.todo.domain.todo.TodoBase;
 import dev.unexist.showcase.todo.infrastructure.base.AbstractBaseEvent;
 import io.cloudevents.CloudEvent;
 
-public class TodoCreated extends AbstractBaseEvent<TodoDto> {
+public class TodoCreated extends AbstractBaseEvent<TodoBase> {
+
+    /**
+     * Constructor
+     *
+     * @param  cloudEvent  A {@link CloudEvent}
+     **/
+
     public TodoCreated(CloudEvent cloudEvent) {
         super(cloudEvent);
     }
 
-    public TodoCreated(TodoDto todoDto) {
-        super(todoDto);
+    /**
+     * Constructor
+     *
+     * @param  base  A {@link TodoBase}
+     **/
+
+    public TodoCreated(TodoBase base) {
+        super(base);
     }
 }

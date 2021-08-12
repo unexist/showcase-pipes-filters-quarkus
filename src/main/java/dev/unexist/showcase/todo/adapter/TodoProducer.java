@@ -11,12 +11,12 @@
 
 package dev.unexist.showcase.todo.adapter;
 
+import dev.unexist.showcase.todo.domain.todo.DueDate;
 import dev.unexist.showcase.todo.domain.todo.Todo;
-import dev.unexist.showcase.todo.domain.todo.TodoDto;
-import dev.unexist.showcase.todo.domain.todo.TodoDtoAssembler;
+import dev.unexist.showcase.todo.domain.todo.TodoBase;
 import dev.unexist.showcase.todo.domain.todo.events.TodoSaved;
-import io.smallrye.reactive.messaging.annotations.Broadcast;
-import org.eclipse.microprofile.reactive.messaging.Outgoing;
+import org.eclipse.microprofile.reactive.messaging.Channel;
+import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,25 +26,35 @@ import java.util.Optional;
 
 @ApplicationScoped
 public class TodoProducer {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TodoConsumer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TodoProducer.class);
 
-    @Outgoing("todo-out")
-    @Broadcast
-    public TodoDto process(@Observes TodoSaved event) {
-        TodoDto dto = null;
+    @Channel("todo_out")
+    Emitter<TodoBase> emitter;
 
+    public void process(@Observes TodoSaved event) {
         LOGGER.info("Received event={}", event.getClass().getSimpleName());
 
-        Optional<Todo> payload = event.getPayload();
+        Optional<Todo> payload = event.getPayload(Todo.class);
 
         if (payload.isPresent()) {
             Todo todo = payload.get();
 
             LOGGER.info("Received event payload={}", todo);
 
-            dto = TodoDtoAssembler.fromTodoToDto(todo);
-        }
+            TodoBase base = new TodoBase();
 
-        return dto;
+            base.setTitle(todo.getTitle());
+            base.setDescription(todo.getDescription());
+            base.setDone(todo.getDone());
+
+            DueDate dueDate = new DueDate();
+
+            dueDate.setStart(todo.getDueDate().getStart());
+            dueDate.setDue(todo.getDueDate().getDue());
+
+            base.setDueDate(dueDate);
+
+            this.emitter.send(base);
+        }
     }
 }

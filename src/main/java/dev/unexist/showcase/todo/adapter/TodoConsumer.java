@@ -11,7 +11,7 @@
 
 package dev.unexist.showcase.todo.adapter;
 
-import dev.unexist.showcase.todo.domain.todo.TodoDto;
+import dev.unexist.showcase.todo.domain.todo.TodoBase;
 import dev.unexist.showcase.todo.domain.todo.events.TodoCreated;
 import org.eclipse.microprofile.reactive.messaging.Acknowledgment;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
@@ -29,11 +29,11 @@ public class TodoConsumer {
     @Inject
     Event<TodoCreated> event;
 
-    @Incoming("todo-in")
+    @Incoming("todo_in")
     @Acknowledgment(Acknowledgment.Strategy.PRE_PROCESSING)
-    public void receive(TodoDto dto) {
-        if (null != dto) {
-            this.event.fire(new TodoCreated(dto));
+    public void receive(TodoBase base) {
+        if (null != base) {
+            this.event.fire(new TodoCreated(base));
 
             LOGGER.info("Sent event={}", TodoCreated.class.getSimpleName());
         }

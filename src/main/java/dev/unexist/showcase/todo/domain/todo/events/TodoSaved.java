@@ -16,9 +16,22 @@ import dev.unexist.showcase.todo.infrastructure.base.AbstractBaseEvent;
 import io.cloudevents.CloudEvent;
 
 public class TodoSaved extends AbstractBaseEvent<Todo> {
+
+    /**
+     * Constructor
+     *
+     * @param  cloudEvent  A {@link CloudEvent}
+     **/
+
     public TodoSaved(CloudEvent cloudEvent) {
         super(cloudEvent);
     }
+
+    /**
+     * Constructor
+     *
+     * @param  todo  A {@link Todo}
+     **/
 
     public TodoSaved(Todo todo) {
         super(todo);
