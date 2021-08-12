@@ -11,9 +11,14 @@
 
 package dev.unexist.showcase.todo.adapter;
 
-import dev.unexist.showcase.todo.domain.todo.TodoDto;
+import dev.unexist.showcase.todo.domain.todo.Todo;
+import dev.unexist.showcase.todo.domain.todo.TodoBase;
+import dev.unexist.showcase.todo.domain.todo.TodoService;
 import dev.unexist.showcase.todo.domain.todo.events.TodoCreated;
 import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
@@ -24,11 +29,14 @@ import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("/todo")
 public class TodoResource {
@@ -36,6 +44,9 @@ public class TodoResource {
 
     @Inject
     Event<TodoCreated> event;
+
+    @Inject
+    TodoService todoService;
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -47,11 +58,34 @@ public class TodoResource {
             @APIResponse(responseCode = "406", description = "Bad data"),
             @APIResponse(responseCode = "500", description = "Server error")
     })
-    public Response create(@Valid TodoDto dto) {
-        this.event.fire(new TodoCreated(dto));
+    public Response create(@Valid TodoBase base) {
+        this.event.fire(new TodoCreated(base));
 
         LOGGER.info("Sent event={}", TodoCreated.class.getSimpleName());
 
         return Response.ok().build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Get all todos")
+    @APIResponses({
+            @APIResponse(responseCode = "200", description = "List of todo", content =
+            @Content(schema = @Schema(type = SchemaType.ARRAY, implementation = Todo.class))),
+            @APIResponse(responseCode = "204", description = "Nothing found"),
+            @APIResponse(responseCode = "500", description = "Server error")
+    })
+    public Response getAll() {
+        List<Todo> todoList = this.todoService.getAll();
+
+        Response.ResponseBuilder response;
+
+        if (todoList.isEmpty()) {
+            response = Response.noContent();
+        } else {
+            response = Response.ok(Entity.json(todoList));
+        }
+
+        return response.build();
     }
 }
