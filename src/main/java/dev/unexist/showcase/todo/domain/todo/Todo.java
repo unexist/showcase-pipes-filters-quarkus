@@ -11,60 +11,56 @@
 
 package dev.unexist.showcase.todo.domain.todo;
 
-import javax.validation.constraints.NotBlank;
-
-public class Todo {
+public class Todo extends TodoBase {
     private int id;
-    @NotBlank
-    private String title;
 
-    @NotBlank
-    private String description;
-
-    private Boolean done;
-
-    private DueDate dueDate;
+    /**
+     * Constructor
+     **/
 
     public Todo() {
     }
+
+    /**
+     * Constructor
+     *
+     * @param  base  Base entry
+     **/
+
+    public Todo(final TodoBase base) {
+        this.update(base);
+    }
+
+    /**
+     * Update values from base
+     *
+     * @param  base  Todo base class
+     **/
+
+    public void update(final TodoBase base) {
+        this.setDueDate(base.getDueDate());
+        this.setTitle(base.getTitle());
+        this.setDescription(base.getDescription());
+        this.setDone(base.getDone());
+    }
+
+    /**
+     * Get id of entry
+     *
+     * @return Id of the entry
+     **/
 
     public int getId() {
         return id;
     }
 
+    /**
+     * Set id of entry
+     *
+     * @param  id  Id of the entry
+     **/
+
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Boolean getDone() {
-        return done;
-    }
-
-    public void setDone(Boolean done) {
-        this.done = done;
-    }
-
-    public DueDate getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(DueDate dueDate) {
-        this.dueDate = dueDate;
     }
 }
