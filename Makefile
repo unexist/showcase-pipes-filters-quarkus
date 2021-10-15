@@ -42,7 +42,7 @@ list:
 
 # RPK
 rpk-port:
-	$(eval RPK_PORT := $(shell docker inspect --format='{{(index (index .NetworkSettings.Ports "9092/tcp") 0).HostPort}}' $(shell docker ps --format "{{.ID}}" --filter="ancestor=vectorized/redpanda:v21.5.5")))
+	$(eval RPK_PORT := $(shell docker inspect --format='{{(index (index .NetworkSettings.Ports "9092/tcp") 0).HostPort}}' $(shell docker ps --format "{{.ID}}" --filter="ancestor=vectorized/redpanda:v21.9.5")))
 
 # Kafkacat
 kat-send: rpk-port
