@@ -2,7 +2,7 @@
  * @package Quarkus-Pipes-Filters-Showcase
  *
  * @file Todo conversion filter
- * @copyright 2020 Christoph Kappel <christoph@unexist.dev>
+ * @copyright 2020-present Christoph Kappel <christoph@unexist.dev>
  * @version $Id: src/main/java/dev/unexist/showcase/todo/domain/todo/TodoRepository.java,v 7
  *
  * This program can be distributed under the terms of the Apache License v2.0.
