@@ -17,8 +17,8 @@ import dev.unexist.showcase.todo.domain.todo.events.TodoConverted;
 import dev.unexist.showcase.todo.domain.todo.events.TodoSaved;
 import dev.unexist.showcase.todo.infrastructure.base.AbstractBaseFilter;
 
-import javax.enterprise.event.Observes;
-import javax.inject.Inject;
+import jakarta.enterprise.event.Observes;
+import jakarta.inject.Inject;
 import java.util.Optional;
 
 public class TodoPersistenceFilter

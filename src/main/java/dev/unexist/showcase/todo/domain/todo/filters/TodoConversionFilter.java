@@ -17,7 +17,7 @@ import dev.unexist.showcase.todo.domain.todo.events.TodoConverted;
 import dev.unexist.showcase.todo.domain.todo.events.TodoCreated;
 import dev.unexist.showcase.todo.infrastructure.base.AbstractBaseFilter;
 
-import javax.enterprise.event.Observes;
+import jakarta.enterprise.event.Observes;
 import java.util.Optional;
 
 public class TodoConversionFilter
